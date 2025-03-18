@@ -13,38 +13,26 @@ export interface Product {
   };
 }
 
-export interface ProductsResponse {
-  products: Product[];
-  total: number;
-  skip: number;
-  limit: number;
-}
+export type ProductsResponse = Product[];
 
 export const productsApi = createApi({
   reducerPath: 'productsApi',
-  baseQuery: fetchBaseQuery({ 
-    baseUrl: process.env.NEXT_PUBLIC_API_URL || 'https://fakestoreapi.com'
-  }),
-  tagTypes: ['Products'],
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://fakestoreapi.com' }),
   endpoints: (builder) => ({
-    getProducts: builder.query<Product[], void>({
-      query: () => 'products',
-      providesTags: ['Products'],
+    getProducts: builder.query<ProductsResponse, void>({
+      query: () => '/products',
     }),
-    getProduct: builder.query<Product, string>({
-      query: (id) => `products/${id}`,
-      providesTags: (_result, _error, id) => [{ type: 'Products', id }],
+    getProduct: builder.query<Product, number>({
+      query: (id) => `/products/${id}`,
     }),
     getCategories: builder.query<string[], void>({
-      query: () => 'products/categories',
+      query: () => '/products/categories',
     }),
-    getProductsByCategory: builder.query<Product[], string>({
-      query: (category) => `products/category/${category}`,
-      providesTags: (_result, _error, category) => [{ type: 'Products', id: category }],
+    getProductsByCategory: builder.query<ProductsResponse, string>({
+      query: (category) => `/products/category/${category}`,
     }),
-    searchProducts: builder.query<Product[], string>({
-      query: (term) => `products/search?q=${term}`,
-      providesTags: ['Products'],
+    searchProducts: builder.query<ProductsResponse, string>({
+      query: (term) => `/products?title=${term}`,
     }),
   }),
 });
