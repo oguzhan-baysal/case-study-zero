@@ -1,27 +1,25 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
-import React from 'react'
-import { Providers } from '@/store/provider'
-
-const inter = Inter({ subsets: ['latin'] })
+import React from 'react';
+import { Providers } from './providers';
+import { ConfigProvider } from 'antd';
+import trTR from 'antd/locale/tr_TR';
 
 export const metadata = {
-  title: 'Products App',
-  description: 'Products Micro Frontend',
-}
+  title: 'Ürünler | E-Ticaret',
+  description: 'E-Ticaret ürün listesi ve detayları',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>
-          {children}
-        </Providers>
+    <html lang="tr">
+      <body>
+        <ConfigProvider locale={trTR}>
+          <Providers>{children}</Providers>
+        </ConfigProvider>
       </body>
     </html>
-  )
+  );
 }
