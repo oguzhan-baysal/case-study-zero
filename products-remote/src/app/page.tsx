@@ -1,13 +1,19 @@
-import React from 'react'
-import ProductsList from '@/components/ProductsList'
+import React from 'react';
+import { Row, Col } from 'antd';
+import ProductList from '@/components/product-list';
+import ProductFilters from '@/components/product-filters';
 
-export default function Home() {
+export default function ProductsPage() {
   return (
-    <main className="min-h-screen p-4">
-      <div className="container mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Products</h1>
-        <ProductsList />
-      </div>
-    </main>
-  )
+    <div style={{ padding: '24px' }}>
+      <Row gutter={[24, 24]}>
+        <Col xs={24} md={6}>
+          <ProductFilters />
+        </Col>
+        <Col xs={24} md={18}>
+          <ProductList />
+        </Col>
+      </Row>
+    </div>
+  );
 }
