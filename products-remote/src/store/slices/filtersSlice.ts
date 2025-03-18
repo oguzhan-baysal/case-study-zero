@@ -1,30 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface FiltersState {
-  category: string | null;
+  category: string;
   searchTerm: string;
-  priceRange: {
-    min: number | null;
-    max: number | null;
-  };
-  sortBy: 'price-asc' | 'price-desc' | 'rating' | null;
+  minPrice: number | null;
+  maxPrice: number | null;
+  sortOrder: 'price-asc' | 'price-desc' | 'rating-desc' | null;
 }
 
 const initialState: FiltersState = {
-  category: null,
+  category: '',
   searchTerm: '',
-  priceRange: {
-    min: null,
-    max: null,
-  },
-  sortBy: null,
+  minPrice: null,
+  maxPrice: null,
+  sortOrder: null,
 };
 
 const filtersSlice = createSlice({
   name: 'filters',
   initialState,
   reducers: {
-    setCategory: (state, action: PayloadAction<string | null>) => {
+    setCategory: (state, action: PayloadAction<string>) => {
       state.category = action.payload;
     },
     setSearchTerm: (state, action: PayloadAction<string>) => {
@@ -32,24 +28,23 @@ const filtersSlice = createSlice({
     },
     setPriceRange: (
       state,
-      action: PayloadAction<{ min: number | null; max: number | null }>
+      action: PayloadAction<{ minPrice: number; maxPrice: number }>
     ) => {
-      state.priceRange = action.payload;
+      state.minPrice = action.payload.minPrice;
+      state.maxPrice = action.payload.maxPrice;
     },
-    setSortBy: (
+    setSortOrder: (
       state,
-      action: PayloadAction<'price-asc' | 'price-desc' | 'rating' | null>
+      action: PayloadAction<'price-asc' | 'price-desc' | 'rating-desc'>
     ) => {
-      state.sortBy = action.payload;
+      state.sortOrder = action.payload;
     },
     resetFilters: (state) => {
-      state.category = null;
-      state.searchTerm = '';
-      state.priceRange = {
-        min: null,
-        max: null,
-      };
-      state.sortBy = null;
+      state.category = initialState.category;
+      state.searchTerm = initialState.searchTerm;
+      state.minPrice = initialState.minPrice;
+      state.maxPrice = initialState.maxPrice;
+      state.sortOrder = initialState.sortOrder;
     },
   },
 });
@@ -58,7 +53,7 @@ export const {
   setCategory,
   setSearchTerm,
   setPriceRange,
-  setSortBy,
+  setSortOrder,
   resetFilters,
 } = filtersSlice.actions;
 
